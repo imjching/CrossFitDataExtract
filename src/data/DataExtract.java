@@ -76,8 +76,8 @@ public class DataExtract {
                     String[] doc = HttpConnection.connect("http://map.crossfit.com/affinfo.php?a=" + ent.getKey() + "&t=0").get().split("<br />");
                     String[] link = doc[0].split("\" target=\"_blank\">");
                     CrossFitEntry cfe = ent.getValue();
-                    cfe.setName(link[0].substring(12));
-                    cfe.setUrl(link[1].substring(0, link[1].length() - 8));
+                    cfe.setName(link[1].substring(0, link[1].length() - 8));
+                    cfe.setUrl(link[0].substring(12));
                     cfe.setAddress(doc[1] + ", " + doc[2]);
                     cfe.setPhone(doc[3]);                    
                     return null;

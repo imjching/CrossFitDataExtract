@@ -102,7 +102,7 @@ public class HttpConnection {
                     while ((combine = reader.readLine()) != null) {
                         sb.append(combine).append(" ");
                     }
-                    
+
                     res.line = sb.substring(0, sb.length() - 1); // We have one line only, some two
                 } finally {
                     if (dataStream != null) {

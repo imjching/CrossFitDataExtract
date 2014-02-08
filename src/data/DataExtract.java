@@ -79,7 +79,7 @@ public class DataExtract {
                     cfe.setName(link[1].substring(0, link[1].length() - 8));
                     cfe.setUrl(link[0].substring(12));
                     cfe.setAddress(doc[1] + ", " + doc[2]);
-                    cfe.setPhone(doc[3]);                    
+                    cfe.setPhone(doc[3]);
                     return null;
                 }
             });

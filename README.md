@@ -20,10 +20,6 @@ CSV Format generated:
     id, name, address, phone, url, latitude, longitude
 	"1","Golden State CrossFit","11174 La Grange Ave, Los Angeles, CA","(818) 665-6512","http://goldenstatecrossfit.com/","34.0423563","-118.4413598"
 
-Bugs
-----
-`doc[3]` in DataExtract.extractData() may cause `NullPointerException` due to the _CrossFit_ website itself which returns a different text response. Will have to work more on this.
-
 Comments
 --------
 Comments are greatly appreciated, please do send me an email at `imjching@hotmail.com`.

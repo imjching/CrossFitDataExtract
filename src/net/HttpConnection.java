@@ -1,5 +1,7 @@
 package net;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.JsonNode;
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -51,9 +53,9 @@ public class HttpConnection {
         return this;
     }
 
-    public String get() throws IOException {
+    public JsonNode get() throws IOException {
         res = Response.execute(req);
-        return res.getLine();
+        return res.getNode();
     }
 
     public static class Request {
@@ -72,7 +74,7 @@ public class HttpConnection {
 
     public static class Response {
 
-        private String line;
+        private JsonNode node;
 
         static Response execute(Request req) throws IOException {
             Validate.notNull(req, "Request must not be null");
@@ -92,24 +94,15 @@ public class HttpConnection {
                 res = new Response();
 
                 InputStream dataStream = null;
-                BufferedReader reader = null;
                 try {
                     dataStream = conn.getErrorStream() != null ? conn.getErrorStream() : conn.getInputStream();
-                    reader = new BufferedReader(new InputStreamReader(new BufferedInputStream(dataStream)));
-
-                    String combine = "";
-                    StringBuilder sb = new StringBuilder();
-                    while ((combine = reader.readLine()) != null) {
-                        sb.append(combine).append(" ");
-                    }
-
-                    res.line = sb.substring(0, sb.length() - 1); // We have one line only, some two
+                    
+                    ObjectMapper mapper = new ObjectMapper();
+                    
+                    res.node = mapper.readTree(conn.getInputStream());
                 } finally {
                     if (dataStream != null) {
                         dataStream.close();
-                    }
-                    if (reader != null) {
-                        reader.close();
                     }
                 }
             } finally {
@@ -120,8 +113,8 @@ public class HttpConnection {
             return res;
         }
 
-        public String getLine() {
-            return line;
+        public JsonNode getNode() {
+            return node;
         }
 
         // set up connection defaults, and details from request

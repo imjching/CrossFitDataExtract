@@ -1,6 +1,7 @@
 package data;
 
 import au.com.bytecode.opencsv.CSVWriter;
+import com.fasterxml.jackson.databind.JsonNode;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -28,12 +29,14 @@ import net.HttpConnection;
  */
 public class DataExtract {
 
-    public static final int THREAD_COUNT = 32;
-    public static final String MAP_DATA = "cfaffmapdata.js";
+    public static final int THREAD_COUNT = 28;
+    public static final String MAP_DATA = "cfaffmapdata-v2.js";
     private Map<Integer, CrossFitEntry> entries = new LinkedHashMap<>(); // iterate order
     private List<String[]> datalist = new LinkedList<>();
-    //http://map.crossfit.com/affinfo.php?a=9825&t=0 
-    //Start: 0, End: 9825
+    //http://map.crossfit.com/affinfo.php?a=9825&t=0
+    //http://map.crossfit.com/getAffiliateInfo.php?aid=3
+    //v1: Start: 0, End: 9825
+    //v2: Start: 0, End: 16029 with a total of 12140 entries
 
     public void load() {
         System.out.println("[LOAD] Data Extractor started.");
@@ -50,11 +53,11 @@ public class DataExtract {
             try (BufferedReader reader = new BufferedReader(new FileReader(MAP_DATA))) {
                 String line = reader.readLine();
                 if (line != null) { // One line only
-                    String[] data = line.substring(15, line.length() - 2).split(","); // Remove variable args
-                    for (int i = 0; i < data.length; i += 3) {
-                        int idd = Integer.parseInt(data[i]);
-                        //System.out.println(idd);
-                        entries.put(idd, new CrossFitEntry(idd, data[i + 1], data[i + 2]));
+                    String[] data = line.split("=");
+                    for (int i = 0; i < data.length; i++) {
+                        String[] ent = data[i].split(",");
+                        int idd = Integer.parseInt(ent[3].replace("\"", ""));
+                        entries.put(idd, new CrossFitEntry(idd, ent[0], ent[1]));
                     }
                 }
             }
@@ -73,13 +76,14 @@ public class DataExtract {
                 @Override
                 public Void call() throws Exception {
                     System.out.println(ent.getKey());
-                    String[] doc = HttpConnection.connect("http://map.crossfit.com/affinfo.php?a=" + ent.getKey() + "&t=0").get().split("<br />");
-                    String[] link = doc[0].split("\" target=\"_blank\">");
+                    JsonNode doc = HttpConnection.connect("https://map.crossfit.com/getAffiliateInfo.php?aid=" + ent.getKey()).get();
+
                     CrossFitEntry cfe = ent.getValue();
-                    cfe.setName(link[1].substring(0, link[1].length() - 8));
-                    cfe.setUrl(link[0].substring(12));
-                    cfe.setAddress(doc[1] + ", " + doc[2]);
-                    cfe.setPhone(doc[3]);
+                    cfe.setName(doc.get("name").asText());
+                    cfe.setUrl(doc.get("website").asText());
+                    cfe.setAddress(doc.get("address").asText() + ", " + doc.get("city").asText() + ", " + doc.get("state").asText() + ", " + doc.get("zip").asText() + ", " + doc.get("country").asText());
+                    cfe.setPhone(doc.get("phone").asText());
+
                     return null;
                 }
             });

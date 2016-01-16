@@ -19,7 +19,7 @@ import java.net.URL;
  *
  * @package	net
  * @author	Jay <imjching@hotmail.com>
- * @copyright	Copyright (C) 2015, Jay <imjching@hotmail.com>
+ * @copyright	Copyright (C) 2016, Jay <imjching@hotmail.com>
  * @license	Modified BSD License (refer to LICENSE)
  */
 public class HttpConnection {

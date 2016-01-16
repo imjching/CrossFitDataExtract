@@ -18,8 +18,8 @@ import java.net.URL;
  * http://jsoup.org/apidocs/org/jsoup/helper/HttpConnection.html
  *
  * @package	net
- * @author	J.Ching <imjching@hotmail.com>
- * @copyright	Copyright (C) 2014, J.Ching <imjching@hotmail.com>
+ * @author	Jay <imjching@hotmail.com>
+ * @copyright	Copyright (C) 2015, Jay <imjching@hotmail.com>
  * @license	Modified BSD License (refer to LICENSE)
  */
 public class HttpConnection {
@@ -96,9 +96,9 @@ public class HttpConnection {
                 InputStream dataStream = null;
                 try {
                     dataStream = conn.getErrorStream() != null ? conn.getErrorStream() : conn.getInputStream();
-                    
+
                     ObjectMapper mapper = new ObjectMapper();
-                    
+
                     res.node = mapper.readTree(conn.getInputStream());
                 } finally {
                     if (dataStream != null) {

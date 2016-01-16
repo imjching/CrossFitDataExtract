@@ -23,8 +23,8 @@ import net.HttpConnection;
  * CrossFit Affiliate Data Extractor
  *
  * @package	data
- * @author	J.Ching <imjching@hotmail.com>
- * @copyright	Copyright (C) 2014, J.Ching <imjching@hotmail.com>
+ * @author	Jay <imjching@hotmail.com>
+ * @copyright	Copyright (C) 2015, Jay <imjching@hotmail.com>
  * @license	Modified BSD License (refer to LICENSE)
  */
 public class DataExtract {

@@ -83,6 +83,7 @@ public class DataExtract {
                     cfe.setUrl(doc.get("website").asText());
                     cfe.setAddress(doc.get("address").asText() + ", " + doc.get("city").asText() + ", " + doc.get("state").asText() + ", " + doc.get("zip").asText() + ", " + doc.get("country").asText());
                     cfe.setPhone(doc.get("phone").asText());
+                    cfe.setCFKids(doc.get("cfkids").asText());
 
                     return null;
                 }
@@ -100,7 +101,7 @@ public class DataExtract {
         executorService.shutdownNow();
 
         // For CSV usage only
-        datalist.add(new String[]{"id", "name", "address", "phone", "url", "latitude", "longitude"}); // header
+        datalist.add(new String[]{"id", "name", "address", "phone", "url", "latitude", "longitude", "cfkids"}); // header
         for (CrossFitEntry cf : entries.values()) {
             datalist.add(cf.toCSVString());
         }

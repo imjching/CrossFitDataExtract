@@ -11,7 +11,7 @@ package data;
 public class CrossFitEntry {
 
     private int id;
-    private String name, address, phone, url, longitude, latitude;
+    private String name, address, phone, url, longitude, latitude, cfkids;
 
     public CrossFitEntry(int id, String latitude, String longitude) { // 34.0423563,-118.4413598 (lattitude, longitude)
         this.id = id;
@@ -75,9 +75,17 @@ public class CrossFitEntry {
     public void setLatitude(String latitude) {
         this.latitude = latitude;
     }
+    
+    public String getCFKids() {
+        return cfkids;
+    }
+    
+    public void setCFKids(String cfkids) {
+        this.cfkids = cfkids;
+    }
 
     public String[] toCSVString() {
-        return new String[]{String.valueOf(id), name, address, phone, url, latitude, longitude};
+        return new String[]{String.valueOf(id), name, address, phone, url, latitude, longitude, cfkids};
     }
 }
 //The data that needs to be extracted:

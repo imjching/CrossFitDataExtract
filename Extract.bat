@@ -1,5 +1,5 @@
 @echo off
 @title CrossFit Data Extract
-set CLASSPATH=.;libs\Crossfit.jar;libs\opencsv-2.3.jar
+set CLASSPATH=.;libs\*
 java -server data.Crossfit
 pause
